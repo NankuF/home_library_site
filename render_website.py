@@ -1,8 +1,25 @@
 import json
+import os
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
+
+
+def on_reload(pages):
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
+
+    template = env.get_template('template.html')
+
+    os.makedirs('pages', exist_ok=True)
+    for i, page in enumerate(pages, 1):
+        rendered_page = template.render(books=chunked(page, 2))
+        with open(f'pages/index{i}.html', 'w', encoding="utf8") as file:
+            file.write(rendered_page)
+
 
 with open('parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
     books = json.load(f)
@@ -16,23 +33,9 @@ if books and '\\' in books[0]['image_src']:
             dir_, image_dir, filename = book['image_src'].split('\\')
             book['image_src'] = f'{dir_}/{image_dir}/{filename}'
 
+pages = list(chunked(books, 10))
 
-def on_reload():
-    env = Environment(
-        loader=FileSystemLoader('.'),
-        autoescape=select_autoescape(['html', 'xml'])
-    )
-
-    template = env.get_template('template.html')
-
-    rendered_page = template.render(books=chunked(books, 2))
-
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
-    print("Site rebuilt")
-
-
-on_reload()
+on_reload(pages)
 
 server = Server()
 
