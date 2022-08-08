@@ -2,6 +2,7 @@ import json
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
+from more_itertools import chunked
 
 with open('parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
     books = json.load(f)
@@ -24,7 +25,7 @@ def on_reload():
 
     template = env.get_template('template.html')
 
-    rendered_page = template.render(books=books)
+    rendered_page = template.render(books=chunked(books, 2))
 
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
