@@ -5,23 +5,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
 
-
-def on_reload(pages):
-    env = Environment(
-        loader=FileSystemLoader('.'),
-        autoescape=select_autoescape(['html', 'xml'])
-    )
-
-    template = env.get_template('template.html')
-
-    os.makedirs('pages', exist_ok=True)
-    for i, page in enumerate(pages, 1):
-        rendered_page = template.render(books=chunked(page, 2))
-        with open(f'pages/index{i}.html', 'w', encoding="utf8") as file:
-            file.write(rendered_page)
-
-
-with open('parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
+with open('pages/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
     books = json.load(f)
 
 if books and '\\' in books[0]['image_src']:
@@ -35,10 +19,32 @@ if books and '\\' in books[0]['image_src']:
 
 pages = list(chunked(books, 10))
 
-on_reload(pages)
+
+def on_reload():
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
+
+    template = env.get_template('template.html')
+
+    os.makedirs('pages', exist_ok=True)
+
+    last_page = len(pages)
+    for current_page_number, page in enumerate(pages, 1):
+        rendered_page = template.render(books=chunked(page, 2),
+                                        current_page=current_page_number,
+                                        previous_page=current_page_number - 1,
+                                        next_page=current_page_number + 1,
+                                        last_page=last_page)
+        with open(f'pages/index{current_page_number}.html', 'w', encoding="utf8") as file:
+            file.write(rendered_page)
+
+
+on_reload()
 
 server = Server()
 
 server.watch('template.html', on_reload)
 
-server.serve(root='.')
+server.serve(root='pages/', default_filename='index1.html')
