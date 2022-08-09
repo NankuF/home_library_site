@@ -14,7 +14,7 @@ def on_reload():
 
     template = env.get_template('template.html')
 
-    os.makedirs('pages', exist_ok=True)
+    os.makedirs('docs', exist_ok=True)
 
     last_page = len(pages)
     for current_page_number, page in enumerate(pages, 1):
@@ -23,11 +23,11 @@ def on_reload():
                                         previous_page=current_page_number - 1,
                                         next_page=current_page_number + 1,
                                         last_page=last_page)
-        with open(f'pages/index{current_page_number}.html', 'w', encoding="utf8") as file:
+        with open(f'docs/index{current_page_number}.html', 'w', encoding="utf8") as file:
             file.write(rendered_page)
 
 
-with open('pages/static/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
+with open('docs/static/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
     books = json.load(f)
 
 if books and '\\' in books[0]['image_src']:
@@ -47,4 +47,4 @@ server = Server()
 
 server.watch('template.html', on_reload)
 
-server.serve(root='pages/', default_filename='index1.html')
+server.serve(root='docs/', default_filename='index1.html')
