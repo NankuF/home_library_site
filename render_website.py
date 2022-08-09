@@ -23,8 +23,12 @@ def on_reload():
                                         previous_page=current_page_number - 1,
                                         next_page=current_page_number + 1,
                                         last_page=last_page)
-        with open(f'docs/index{current_page_number}.html', 'w', encoding="utf8") as file:
-            file.write(rendered_page)
+        if current_page_number == 1:
+            with open('docs/index.html', 'w', encoding="utf8") as file:
+                file.write(rendered_page)
+        else:
+            with open(f'docs/index{current_page_number}.html', 'w', encoding="utf8") as file:
+                file.write(rendered_page)
 
 
 with open('docs/static/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
@@ -47,4 +51,4 @@ server = Server()
 
 server.watch('template.html', on_reload)
 
-server.serve(root='docs/', default_filename='index1.html')
+server.serve(root='docs/', default_filename='index.html')
