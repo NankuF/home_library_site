@@ -5,20 +5,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
 
-with open('pages/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
-    books = json.load(f)
-
-if books and '\\' in books[0]['image_src']:
-    for book in books:
-        if book.get('book_path'):
-            dir_, book_dir, filename = book['book_path'].split('\\')
-            book['book_path'] = f'{dir_}/{book_dir}/{filename}'
-        if book.get('image_src'):
-            dir_, image_dir, filename = book['image_src'].split('\\')
-            book['image_src'] = f'{dir_}/{image_dir}/{filename}'
-
-pages = list(chunked(books, 10))
-
 
 def on_reload():
     env = Environment(
@@ -40,6 +26,20 @@ def on_reload():
         with open(f'pages/index{current_page_number}.html', 'w', encoding="utf8") as file:
             file.write(rendered_page)
 
+
+with open('pages/static/parse_result/fantastic_books_catalog.json', encoding='utf-8') as f:
+    books = json.load(f)
+
+if books and '\\' in books[0]['image_src']:
+    for book in books:
+        if book.get('book_path'):
+            dir_, book_dir, filename = book['book_path'].split('\\')
+            book['book_path'] = f'{dir_}/{book_dir}/{filename}'
+        if book.get('image_src'):
+            dir_, image_dir, filename = book['image_src'].split('\\')
+            book['image_src'] = f'{dir_}/{image_dir}/{filename}'
+
+pages = list(chunked(books, 10))
 
 on_reload()
 
