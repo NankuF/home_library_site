@@ -69,7 +69,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{book['title']}}</h5>
                   <p class="card-text">{{book['author']}}</p>
-                  <a href="static/{{book['book_path']|urlencode}}">Читать</a><br>
+                  <a href="static/{{book['book_path']|urlencode}}" target="_blank">Читать</a><br>
                   {% for genre in book['genres'] %}
                     <span class="badge badge-secondary">{{genre}}</span>
                   {% endfor %}
