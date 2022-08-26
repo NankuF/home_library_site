@@ -25,12 +25,9 @@ def on_reload(pages):
                                         previous_page=current_page_number - 1,
                                         next_page=current_page_number + 1,
                                         last_page=last_page)
-        if current_page_number == 1:
-            with open('docs/index.html', 'w', encoding="utf8") as file:
-                file.write(rendered_page)
-        else:
-            with open(f'docs/index{current_page_number}.html', 'w', encoding="utf8") as file:
-                file.write(rendered_page)
+        current_page = 'index.html' if current_page_number == 1 else f'{current_page_number}.html'
+        with open(f'docs/{current_page}', 'w', encoding="utf8") as file:
+            file.write(rendered_page)
 
 
 def main():
