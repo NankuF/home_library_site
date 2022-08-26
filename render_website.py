@@ -43,7 +43,8 @@ def main():
                 dir_, image_dir, filename = book['image_src'].split('\\')
                 book['image_src'] = f'{dir_}/{image_dir}/{filename}'
 
-    pages = list(chunked(books, 10))
+    books_per_page = 10
+    pages = list(chunked(books, books_per_page))
 
     on_reload(pages)
 
