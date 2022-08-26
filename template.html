@@ -4,9 +4,9 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" type="image/png" href="static/favicon.png"/>
+  <link rel="icon" type="image/png" href="../favicon.png"/>
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="static/bootstrap.min.css">
+  <link rel="stylesheet" href="../bootstrap.min.css">
 
   <title>Каталог книг</title>
 </head>
@@ -63,13 +63,13 @@
           <div class="card col-6" style="max-width: 540px;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <img src="static/{{book['image_src']|urlencode}}" class="card-img" alt="{{book['title']}}">
+                <img src="../../{{book['image_src']|urlencode}}" class="card-img" alt="{{book['title']}}">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">{{book['title']}}</h5>
                   <p class="card-text">{{book['author']}}</p>
-                  <a href="static/{{book['book_path']|urlencode}}" target="_blank">Читать</a><br>
+                  <a href="../../{{book['book_path']|urlencode}}" target="_blank">Читать</a><br>
                   {% for genre in book['genres'] %}
                     <span class="badge badge-secondary">{{genre}}</span>
                   {% endfor %}
@@ -83,7 +83,7 @@
     {% endfor %}
   </div>
 
-  <script src="static/jquery-3.5.1.slim.min.js"></script>
-  <script src="static/bootstrap.bundle.min.js"></script>
+  <script src="../jquery-3.5.1.slim.min.js"></script>
+  <script src="../bootstrap.bundle.min.js"></script>
 </body>
 </html>

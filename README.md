@@ -1,6 +1,6 @@
 # Домашняя библиотека
 
-Библиотека доступна по [ссылке.](https://nankuf.github.io/home_library_site/index.html)<br>
+Библиотека доступна по [ссылке.](https://nankuf.github.io/home_library_site/static/pages/index.html)<br>
 
 ![img.png](img.png)
 
@@ -60,7 +60,7 @@ json в `parse_result`.
 ```commandline
 python render_website.py
 ```
-8. Библиотека `livereload` ломает кодировку. Поэтому после генерации страниц библиотеку следует открывать из `docs/`.
+8. Библиотека `livereload` ломает кодировку. Поэтому после генерации страниц библиотеку следует открывать из `static/pages/`.
 
 
 *Это учебный проект курса "Вёрстка для питониста" с сайта [devman.](https://dvmn.org/modules/website-layout-for-pydev/)*
