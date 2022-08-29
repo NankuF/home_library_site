@@ -1,5 +1,6 @@
 import json
 import os
+from functools import partial
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
@@ -50,7 +51,8 @@ def main():
 
     server = Server()
 
-    server.watch('template.html', on_reload)
+    on_reload_callback = partial(on_reload, pages)
+    server.watch('template.html', func=on_reload_callback)
 
     server.serve(root='', default_filename='index.html')
 
