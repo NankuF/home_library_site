@@ -23,8 +23,6 @@ def on_reload(pages):
     for current_page_number, page in enumerate(pages, 1):
         rendered_page = template.render(books=chunked(page, 2),
                                         current_page=current_page_number,
-                                        previous_page=current_page_number - 1,
-                                        next_page=current_page_number + 1,
                                         last_page=last_page)
         current_page = 'index.html' if current_page_number == 1 else f'index{current_page_number}.html'
         with open(f'static/pages/{current_page}', 'w', encoding="utf8") as file:
